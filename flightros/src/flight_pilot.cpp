@@ -36,14 +36,12 @@ FlightPilot::FlightPilot(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
   quad_state_.setZero();
   quad_ptr_->reset(quad_state_);
 
-
   // initialize subscriber call backs
   sub_state_est_ = nh_.subscribe("flight_pilot/state_estimate", 1,
                                  &FlightPilot::poseCallback, this);
 
   timer_main_loop_ = nh_.createTimer(ros::Rate(main_loop_freq_),
                                      &FlightPilot::mainLoopCallback, this);
-
 
   // wait until the gazebo and unity are loaded
   ros::Duration(5.0).sleep();
@@ -63,17 +61,15 @@ void FlightPilot::poseCallback(const nav_msgs::Odometry::ConstPtr &msg) {
   quad_state_.x[QS::ATTX] = (Scalar)msg->pose.pose.orientation.x;
   quad_state_.x[QS::ATTY] = (Scalar)msg->pose.pose.orientation.y;
   quad_state_.x[QS::ATTZ] = (Scalar)msg->pose.pose.orientation.z;
-  //
-  quad_ptr_->setState(quad_state_);
 
+  quad_ptr_->setState(quad_state_);
+}
+
+void FlightPilot::mainLoopCallback(const ros::TimerEvent &event) {
   if (unity_render_ && unity_ready_) {
     unity_bridge_ptr_->getRender(0);
     unity_bridge_ptr_->handleOutput(unity_output_);
   }
-}
-
-void FlightPilot::mainLoopCallback(const ros::TimerEvent &event) {
-  // empty
 }
 
 bool FlightPilot::setUnity(const bool render) {
@@ -95,8 +91,8 @@ bool FlightPilot::connectUnity() {
 
 bool FlightPilot::loadParams(void) {
   // load parameters
-  quadrotor_common::getParam("main_loop_freq", main_loop_freq_, pnh_);
-  quadrotor_common::getParam("unity_render", unity_render_, pnh_);
+  main_loop_freq_ = 50.0;
+  unity_render_ = true;
 
   return true;
 }

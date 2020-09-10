@@ -7,12 +7,6 @@
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 
-// rpg quadrotor
-#include <autopilot/autopilot_helper.h>
-#include <autopilot/autopilot_states.h>
-#include <quadrotor_common/parameter_helper.h>
-#include <quadrotor_msgs/AutopilotFeedback.h>
-
 // flightlib
 #include "flightlib/bridges/unity_bridge.hpp"
 #include "flightlib/common/quad_state.hpp"

@@ -11,10 +11,9 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>catkin_simple</buildtool_depend>
 
-  <depend>flightlib</depend>
+  <build_depend>flightlib</build_depend>
+  <exec_depend>flightlib</exec_depend>
   <depend>roscpp</depend>
-  <depend>autopilot</depend>
-  <depend>quadrotor_common</depend>
   <depend>nav_msgs</depend>
 
 </package>
